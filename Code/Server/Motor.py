@@ -110,16 +110,18 @@ PWM = Motor()
 
 
 def loop():
-    PWM.setMotorModel(2000, 2000, 2000, 2000)  # Forward
+    # PWM.setMotorModel(2000, 2000, 2000, 2000)  # Forward
+    # time.sleep(3)
+    # PWM.setMotorModel(-2000, -2000, -2000, -2000)  # Back
+    # time.sleep(3)
+    # PWM.setMotorModel(-500, -500, 2000, 2000)  # Left
+    # time.sleep(3)
+    # PWM.setMotorModel(2000, 2000, -500, -500)  # Right
+    # time.sleep(3)
+    # PWM.setMotorModel(0, 0, 0, 0)  # Stop
+    PWM.setMotorModel(600, 600, 600, 600)  # Forward
     time.sleep(3)
-    PWM.setMotorModel(-2000, -2000, -2000, -2000)  # Back
-    time.sleep(3)
-    PWM.setMotorModel(-500, -500, 2000, 2000)  # Left
-    time.sleep(3)
-    PWM.setMotorModel(2000, 2000, -500, -500)  # Right
-    time.sleep(3)
-    PWM.setMotorModel(0, 0, 0, 0)  # Stop
-
+    PWM.setMotorModel(0, 0, 0, 0)
 
 def destroy():
     PWM.setMotorModel(0, 0, 0, 0)
