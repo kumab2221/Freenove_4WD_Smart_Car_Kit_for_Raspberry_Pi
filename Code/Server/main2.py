@@ -14,7 +14,6 @@ def main2():
     buzzer = Buzzer()
     ultra = Ultrasonic()
     try:
-        area_jdg = AreaJdg()
         buzeer_ctrl = BuzzerCtrl()
         motor.setMotorModel(0,0,0,0)
         
@@ -28,11 +27,11 @@ def main2():
 
             ### (判断)制御アプリ-Start
             # エリア判定
-            area_state = _area_jdg.AreaJdg(ulsnc_sig)
+            area_state = AreaJdg(ulsnc_sig)
             # 駆動マネージャー
             drv_ctrl_st, fr_drv_out, fl_drv_out, rr_drv_out, rl_drv_out = DrvCtrl(area_state)
             # ブザー判断
-            buzzer_out = _buzeer_ctrl.BuzzerCtrl( area_state, drv_ctrl_st)
+            buzzer_out = BuzzerCtrl( area_state, drv_ctrl_st)
             ### (判断)制御アプリ-End
 
             ### (制御)デバイス制御-Start
@@ -55,6 +54,7 @@ def main2():
 
     except KeyboardInterrupt:
         motor.setMotorModel(0,0,0,0) # モーターを停止する
+        buzzer.run(0)
         print("Break Loop")
 
 if __name__ == "__main__":
