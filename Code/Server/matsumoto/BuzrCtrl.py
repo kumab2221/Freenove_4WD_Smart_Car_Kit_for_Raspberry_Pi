@@ -1,69 +1,61 @@
-import time
-import Buzzer
 
-class BuzzerCtrl:
-    
-    flag = False
-    
-    def BuzzerCtrl(self,AreaJdg,DrvCtrlSt):
-        Param_Area3_BuzzerOff = 0.2
-        Param_Area3_BuzzerOn = 0.8
-        Param_Area2_BuzzerOff = 0.4
-        Param_Area2_BuzzerOn = 0.2
+BuzzerOn_flag = False
+called_counter = 0
+set_counter = 0
+BuzzerOut = 0
+Pre_Area = -1
 
-        B=Buzzer.Buzzer()
-        
-        if AreaJdg == 1:
-            B.run('1')
-            time.sleep(Param_Area3_BuzzerOn)
-            B.run('0')
-            time.sleep(Param_Area3_BuzzerOff)
-        elif AreaJdg == 2:
-            B.run('1')
-            time.sleep(Param_Area2_BuzzerOn)
-            B.run('0')
-            time.sleep(Param_Area2_BuzzerOff)
-        elif AreaJdg == 3 and DrvCtrlSt == 0 and BuzzerCtrl.flag == False :
-            BuzzerCtrl.Flag = True
-            B.run('1')
-            time.sleep(5)
-            B.run('0')
-            time.sleep(5)
-        elif AreaJdg == 3:
-            B.run('1')
-        else :
-            B.run('0')
+def BuzrCtrl(AreaJdg,DrvSt):
+    global BuzzerOn_flag, called_counter, set_counter,Pre_Area
+    called_counter += 1
 
-            
-if __name__=='__main__':
-    BC=BuzzerCtrl()
-    BC.BuzzerCtrl(0,3)
-    print ('area4')
-    BC.BuzzerCtrl(0,3)
-    BC.BuzzerCtrl(0,3)
-    BC.BuzzerCtrl(0,3)
-    print ('area3')
-    BC.BuzzerCtrl(1,2)
-    BC.BuzzerCtrl(1,2)
-    BC.BuzzerCtrl(1,2)
-    BC.BuzzerCtrl(1,2)
-    print ('area2')
-    BC.BuzzerCtrl(2,3)
-    BC.BuzzerCtrl(2,3)
-    BC.BuzzerCtrl(2,3)
-    BC.BuzzerCtrl(2,3)
-    print ('area1')
-    BC.BuzzerCtrl(3,3)
-    BC.BuzzerCtrl(3,3)
-    BC.BuzzerCtrl(3,3)
-    BC.BuzzerCtrl(3,3)
-    print ('0kph')
-    BC.BuzzerCtrl(3,0)
-    BC.BuzzerCtrl(3,0)
-    BC.BuzzerCtrl(3,0)
-    BC.BuzzerCtrl(3,0)
-    BC.BuzzerCtrl(3,0)
-    BC.BuzzerCtrl(3,0)
-    BC.BuzzerCtrl(3,0)
-    BC.BuzzerCtrl(3,0)
-    print ('end')
+    if AreaJdg != Pre_Area:
+        Pre_Area = AreaJdg
+        set_counter = called_counter
+
+    if AreaJdg == 3:  # Area1
+        if DrvSt == 0:
+            if called_counter - set_counter >= 500:  
+                BuzzerOn_flag = False
+            else:
+                BuzzerOn_flag = True
+
+        else :  
+                BuzzerOn_flag = True
+                set_counter = called_counter
+
+    elif AreaJdg == 2:  # Area2: ON:0.2sec OFF:0.4sec
+        if BuzzerOn_flag:
+            if called_counter - set_counter >= 40:  # 0.4
+                BuzzerOn_flag = False
+                set_counter = called_counter
+        else:
+            if called_counter - set_counter >= 20:  # 0.2
+                BuzzerOn_flag = True
+                set_counter = called_counter
+
+    elif AreaJdg == 1:  # Area3: ON:0.2sec OFF:0.8sec
+        if BuzzerOn_flag:
+            if called_counter - set_counter >= 80:  # 0.8
+                BuzzerOn_flag = False
+                print("False")
+                set_counter = called_counter
+            else:
+                BuzzerOn_flag = True
+        else:
+            if called_counter - set_counter >= 20:  # 0.2
+                BuzzerOn_flag = True
+                print("True")
+                set_counter = called_counter
+            else:
+                BuzzerOn_flag = False
+
+    elif AreaJdg == 0:  # Area4:
+        BuzzerOn_flag = False
+
+    if BuzzerOn_flag:
+        BuzzerOut = 1
+    else:
+        BuzzerOut = 0
+
+    return BuzzerOut
