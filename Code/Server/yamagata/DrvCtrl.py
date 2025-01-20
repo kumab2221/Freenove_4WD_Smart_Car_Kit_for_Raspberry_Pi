@@ -99,10 +99,10 @@ def DrvRq(DrvRqJdg):
 		RlDrvRq = 60.0
 	
 	elif DrvRqJdg == 3:	#3: Deceleration Drive
-		FrDrvRq = 30.0
-		FlDrvRq = 30.0
-		RrDrvRq = 30.0
-		RlDrvRq = 30.0
+		FrDrvRq = 50.0
+		FlDrvRq = 50.0
+		RrDrvRq = 50.0
+		RlDrvRq = 50.0
 
 	elif DrvRqJdg == 4: #4: Rmergency Stop
 		FrDrvRq = 0.0

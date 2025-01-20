@@ -42,7 +42,7 @@ def main2():
 
             # 処理周期を10msに保つ
             elapsed_time = time.time() - start_time
-            sleep_time = max(0, 0.01 - elapsed_time) 
+            sleep_time = max(0, 0.1 - elapsed_time) 
             time.sleep(sleep_time)
 
             # 経過時間測定ログをデバックできるように表示する            
