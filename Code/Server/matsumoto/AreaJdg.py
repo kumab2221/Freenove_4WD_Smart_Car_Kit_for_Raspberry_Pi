@@ -1,9 +1,19 @@
+window_size = 3
+data_buffer = []
+
+def UlsncSigFilt(UlsncSig):
+    global window_size,data_buffer
+    data_buffer.append(UlsncSig)
+    if len(data_buffer) > window_size:
+        data_buffer.pop(0)
+    DistObj = sum(data_buffer) / len(data_buffer)
+
+    return DistObj
+
 
 def AreaJdg(UlsncSig): #cm
-    dist_obj = UlsncSig
     # フィルタ機能
-    
-
+    dist_obj = UlsncSigFilt(UlsncSig)
     if dist_obj >= 70:
         area_jdg = 0 #Area4
     elif dist_obj >= 40:
