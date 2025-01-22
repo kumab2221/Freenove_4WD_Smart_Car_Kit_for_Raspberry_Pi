@@ -1,5 +1,5 @@
 
-def DrvCtrl(AreaJdg,):
+def DrvCtrl(AreaJdg, DistObj):
 	#AreaJdg
 	#0:Area4, start
 	#1:Area3
@@ -19,7 +19,7 @@ def DrvCtrl(AreaJdg,):
 	#3: Deceleration Drive
 	#4: Rmergency Stop
 	
-	FrDrvRq, FlDrvRq, RrDrvRq, RlDrvRq = DrvRq(DrvRqJdg)
+	FrDrvRq, FlDrvRq, RrDrvRq, RlDrvRq = DrvRq(DrvRqJdg, DistObj)
 	#[-100, 100][%]
 
 	FrDrvOut = FrDrvCtl(FrDrvRq)
@@ -38,36 +38,39 @@ def fDrvRqJdg(AreaJdg):
 	#0:Area4, start
 	#1:Area3
 	#2:Area2
-	#3:Area0, end
-	
+	#3:Area1, end
 	DrvRqJdg = 0
 
 	if AreaJdg == 0:
 		DrvRqJdg = 1
-
 	elif AreaJdg == 1:
-		DrvRqJdg = 2
-
+		DrvRqJdg = 1
 	elif AreaJdg == 2:
-		DrvRqJdg = 3
-
+		DrvRqJdg = 2
 	elif AreaJdg == 3:
-		DrvRqJdg = 4
-
+		DrvRqJdg = 3
 	else:	
 		DrvRqJdg = 0
-
 
 	#DrvRqJdg, DrvCtrlSt
 	#0:oFF
 	#1:Normal Drive
 	#2:Lo Drive
 	#3: Deceleration Drive
-	#4: Rmergency Stop
+	#4: Emergency Stop
 	return DrvRqJdg
 
 
-def DrvRq(DrvRqJdg):
+def linear_function(x):
+    # 2点を基に傾きと切片を計算
+    x1, y1 = 5, 0
+    x2, y2 = 20, 70
+    m = (y2 - y1) / (x2 - x1)  # 傾き
+    b = y1 - m * x1            # 切片
+    # 線形関数
+    return m * x + b
+
+def DrvRq(DrvRqJdg, DistObj):
 	#DrvRqJdg, DrvCtrlSt
 	#0:oFF
 	#1:Normal Drive
@@ -93,16 +96,17 @@ def DrvRq(DrvRqJdg):
 		RlDrvRq = 100.0
 
 	elif DrvRqJdg == 2:	#2:Lo Drive	
-		FrDrvRq = 60.0
-		FlDrvRq = 60.0
-		RrDrvRq = 60.0
-		RlDrvRq = 60.0
+		FrDrvRq = 70.0
+		FlDrvRq = 70.0
+		RrDrvRq = 70.0
+		RlDrvRq = 70.0
 	
 	elif DrvRqJdg == 3:	#3: Deceleration Drive
-		FrDrvRq = 50.0
-		FlDrvRq = 50.0
-		RrDrvRq = 50.0
-		RlDrvRq = 50.0
+		trq = linear_function(DistObj)
+		FrDrvRq = trq
+		FlDrvRq = trq
+		RrDrvRq = trq
+		RlDrvRq = trq
 
 	elif DrvRqJdg == 4: #4: Rmergency Stop
 		FrDrvRq = 0.0
