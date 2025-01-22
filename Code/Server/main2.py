@@ -26,7 +26,7 @@ def main2():
 
             ### (判断)制御アプリ-Start
             # エリア判定
-            dist_obj, area_state = AreaJdg(ulsnc_sig)
+            area_state, dist_obj = AreaJdg(ulsnc_sig)
             # 駆動マネージャー
             drv_ctrl_st, fr_drv_out, fl_drv_out, rr_drv_out, rl_drv_out = DrvCtrl(area_state, dist_obj)
             # ブザー判断
