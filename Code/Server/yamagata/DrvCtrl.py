@@ -63,8 +63,8 @@ def fDrvRqJdg(AreaJdg):
 
 def linear_function(x):
     # 2点を基に傾きと切片を計算
-    x1, y1 = 5, 0
-    x2, y2 = 20, 70
+    x1, y1 = 5.0, 0.0
+    x2, y2 = 20.0, 70.0
     m = (y2 - y1) / (x2 - x1)  # 傾き
     b = y1 - m * x1            # 切片
     # 線形関数
