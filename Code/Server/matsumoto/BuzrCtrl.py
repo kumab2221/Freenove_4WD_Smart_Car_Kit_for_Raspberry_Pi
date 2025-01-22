@@ -5,7 +5,7 @@ set_counter = 0
 BuzzerOut = 0
 Pre_Area = -1
 
-def BuzrCtrl(AreaJdg,DrvSt):
+def BuzrCtrl(AreaJdg,DrvCtrlSt):
     global BuzzerOn_flag, called_counter, set_counter,Pre_Area
     called_counter += 1
 
@@ -14,7 +14,7 @@ def BuzrCtrl(AreaJdg,DrvSt):
         set_counter = called_counter
 
     if AreaJdg == 3:  # Area1
-        if DrvSt == 0:
+        if DrvCtrlSt == 0:
             if called_counter - set_counter >= 50:  
                 BuzzerOn_flag = False
             else:
