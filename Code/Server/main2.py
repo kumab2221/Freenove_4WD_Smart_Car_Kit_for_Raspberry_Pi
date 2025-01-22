@@ -16,7 +16,7 @@ def main2():
     try:
         motor.setMotorModel(0,0,0,0)
         buzzer.run("0")
-        print("time, ulsnc_sig, area_state, buzzer_out, drv_ctrl_st, fr_drv_out, fl_drv_out, rr_drv_out, rl_drv_out")
+        print("time, ulsnc_sig, dist_obj, area_state, buzzer_out, drv_ctrl_st, fr_drv_out, fl_drv_out, rr_drv_out, rl_drv_out")
         while True:
             start_time = time.time()
 
@@ -26,9 +26,9 @@ def main2():
 
             ### (判断)制御アプリ-Start
             # エリア判定
-            area_state = AreaJdg(ulsnc_sig)
+            area_state, dist_obj = AreaJdg(ulsnc_sig)
             # 駆動マネージャー
-            drv_ctrl_st, fr_drv_out, fl_drv_out, rr_drv_out, rl_drv_out = DrvCtrl(area_state)
+            drv_ctrl_st, fr_drv_out, fl_drv_out, rr_drv_out, rl_drv_out = DrvCtrl(area_state, dist_obj)
             # ブザー判断
             buzzer_out = BuzrCtrl( area_state, drv_ctrl_st)
             ### (判断)制御アプリ-End
@@ -49,7 +49,7 @@ def main2():
             formatted_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time))
             milliseconds = int((start_time % 1) * 1000)
             # "time, area_state, drv_ctrl_st, fr_drv_out, fl_drv_out, rr_drv_out, rl_drv_out "
-            print(f"{formatted_time}.{milliseconds:03d}, {ulsnc_sig}, {area_state}, {buzzer_out}, {drv_ctrl_st}, {fr_drv_out}, {fl_drv_out}, {rr_drv_out}, {rl_drv_out}")
+            print(f"{formatted_time}.{milliseconds:03d}, {ulsnc_sig}, {dist_obj},{area_state}, {buzzer_out}, {drv_ctrl_st}, {fr_drv_out}, {fl_drv_out}, {rr_drv_out}, {rl_drv_out}")
 
     except KeyboardInterrupt:
         motor.setMotorModel(0,0,0,0) # モーターを停止する
