@@ -75,11 +75,11 @@ def AreaJdg(UlsncSig): #cm
     kf.predict()
     kf.update(UlsncSig)
     est_x, est_v = kf.get_state()
-    if est_x >= 70:
+    if est_x >= 140:
         area_jdg = 0 #Area4
-    elif est_x >= 40:
+    elif est_x >= 70:
         area_jdg = 1 #Area3
-    elif est_x >= 20:
+    elif est_x >= 40:
         area_jdg = 2 #Area2
     else:
         area_jdg = 3 #Area1	

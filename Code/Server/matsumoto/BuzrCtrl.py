@@ -26,24 +26,24 @@ def BuzrCtrl(AreaJdg,DrvCtrlSt):
 
     elif AreaJdg == 2:  # Area2: ON:0.2sec OFF:0.4sec
         if BuzzerOn_flag:
-            if called_counter - set_counter >= 4:  # 0.4
+            if called_counter - set_counter >= 2:  # 0.4
                 BuzzerOn_flag = False
                 set_counter = called_counter
         else:
-            if called_counter - set_counter >= 2:  # 0.2
+            if called_counter - set_counter >= 1:  # 0.2
                 BuzzerOn_flag = True
                 set_counter = called_counter
 
     elif AreaJdg == 1:  # Area3: ON:0.2sec OFF:0.8sec
         if BuzzerOn_flag:
-            if called_counter - set_counter >= 8:  # 0.8
+            if called_counter - set_counter >= 4:  # 0.8
                 BuzzerOn_flag = False
                 print("False")
                 set_counter = called_counter
             else:
                 BuzzerOn_flag = True
         else:
-            if called_counter - set_counter >= 2:  # 0.2
+            if called_counter - set_counter >= 1:  # 0.2
                 BuzzerOn_flag = True
                 print("True")
                 set_counter = called_counter
@@ -54,6 +54,7 @@ def BuzrCtrl(AreaJdg,DrvCtrlSt):
         BuzzerOn_flag = False
 
     if BuzzerOn_flag:
+        #BuzzerOut = 0
         BuzzerOut = 1
     else:
         BuzzerOut = 0
